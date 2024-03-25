@@ -157,13 +157,20 @@ disp(y_value); % 결과 출력
 %     data(BigI(i)).R001s = interp1(data(BigI(i)).t, data(BigI(i)).R , x_001);
 % end
 
-% 1s , 10s, 30s 에서 Resistance 
+%1s , 10s, 30s 에서 Resistance 
 for i = 1:length(BigI)
    data(BigI(i)).R001s = data(BigI(i)).R(1);
    data(BigI(i)).R1s = data(BigI(i)).R(10);
    data(BigI(i)).R10s = data(BigI(i)).R(56);
    data(BigI(i)).R30s = data(BigI(i)).R(end);
 end
+
+for i = 1:length(BigI)
+   data(BigI(i)).R0 = data(BigI(i)).R(1);
+   data(BigI(i)).R1 = data(BigI(i)).R(56) - data(BigI(i)).R0 ;
+   %data(BigI(i)).R30s = data(BigI(i)).R(end);
+end
+
 
 % BigI에서 charge 상태까지의 step 얻기
 % -- CATHOD, FCC 에서는 BIGIC,D 구간 얻기 -- %
@@ -305,9 +312,9 @@ end
 % 구조체 생성
 for i = 1 : length(data)
     data(i).C =[];
-    data(i).opR1 = [];
-    data(i).opR2 = [];
-    data(i).opC = [];
+%     data(i).opR1 = [];
+%     data(i).opR2 = [];
+%     data(i).opC = [];
 end
 
 
@@ -354,7 +361,7 @@ hold off;
 % a값 구하기
 
 for i = 1 : length(BigIC)
-    data(BigIC(i)).a = [data(BigIC(i)).R001s/data(BigIC(i)).R30s] +1 ;
+    data(BigIC(i)).a = [data(BigIC(i)).R001s/(data(BigIC(i)).R10s -data(BigIC(i)).R001s)] +1 ;
 
 end
 
